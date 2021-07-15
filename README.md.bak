@@ -30,7 +30,7 @@ I would recommend going through the examples provided in this repo to get a feel
 - Copy everything from the Server directory to your Eluna scripts directory. That's it!
 
 ### Client:
-The CMH can be distributed either as a stand-alone addon, or through a patch. Files are provided for both solutions in the Client directory, but be aware of the differences:
+CSMH can be distributed either as a stand-alone addon, or through a patch. Files are provided for both solutions in the Client directory, but be aware of the differences:
 
 #### Addon:
 - Copy **CMH.Lua**, **CMH.toc** and **smallfolk.lua** to **Interface\AddOns\CMH**
