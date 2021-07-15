@@ -19,11 +19,11 @@ function StatPointUI.LoadData(guid)
 	if(query) then
 		StatPointUI.cache[guid] = {
 			query:GetUInt32(0), -- Strength
-            query:GetUInt32(1), -- Agility
-            query:GetUInt32(2), -- Stamina
-            query:GetUInt32(3), -- Intellect
-            query:GetUInt32(4), -- Spirit
-            query:GetUInt32(5)  -- statpoints
+			query:GetUInt32(1), -- Agility
+			query:GetUInt32(2), -- Stamina
+			query:GetUInt32(3), -- Intellect
+			query:GetUInt32(4), -- Spirit
+			query:GetUInt32(5)  -- statpoints
 		}
 	else
 		StatPointUI.cache[guid] = {0, 0, 0, 0, 0, 0};
