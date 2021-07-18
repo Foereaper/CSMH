@@ -1,3 +1,4 @@
+
 # CSMH
 
 ### What is CSMH?
@@ -39,7 +40,30 @@ The CMH can be distributed either as a stand-alone addon, or through a patch. Fi
 - Copy **CMH.Lua**, **FrameXML.toc** and **smallfolk.lua** to **Interface\FrameXML**
 
 ## API:
-Soon™
+### Client:
+`RegisterServerResponses(config table)`
+- **RegisterServerResponses** takes a config table (see Both section for structure) and registers functionId's to corresponding client side functions. You then use these functionId's in SendServerResponse.
+
+`SendClientRequest(prefix, functionId, ...)`
+- **SendClientRequest** sends a Client Request to the Server, with *prefix* and *functionId* defined in your server config table. Takes any amount of string, integer, table or boolean variables and sends to the corresponding function.
+
+### Server:
+`RegisterClientRequests(config table)`
+- **RegisterClientRequests** takes a config table (see Both section for structure) and registers functionId's to corresponding server side functions. You then use these functionId's in SendClientRequest.
+
+`Player:SendServerResponse(prefix, functionId, ...)`
+- **SendServerResponse** sends a Server Response to the Client, with *prefix* and *functionId* defined in your client config table. Takes any amount of string, integer, table or boolean variables and sends to the corresponding function. Requires *player* object.
+
+### Both:
+	local config = {
+		Prefix = "YourAddonName",
+		Functions = {
+			[1] = "YourFunctionName",
+			[2] = "YourOtherFunctionName",
+			[n] = "..."
+		}
+	}
+- The config table is required for any script using CSMH, both client and server side. Using the same Prefix on client and server is not required, but recommended for ease of use. You can register any amount of functions in the Functions section of the config table.
 
 ## Credits:
 - [Stoneharry](https://github.com/stoneharry)
