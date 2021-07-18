@@ -92,7 +92,7 @@ local function ProcessVariables(sender, reqId, ...)
 	datacache[sender:GetGUIDLow()] = datacache[sender:GetGUIDLow()] or {}
 	
 	if not datacache[sender:GetGUIDLow()][reqId] then
-		datacache[sender:GetGUIDLow()][reqId] = { count = 1, data = {}}
+		datacache[sender:GetGUIDLow()][reqId] = { count = 0, data = {}}
 	end
 	
 	for i=1, msg:len(), splitLength do
@@ -345,7 +345,7 @@ function Player:SendServerResponse(prefix, functionId, ...)
 	local reqId = GenerateReqId()
 	local varTable = ProcessVariables(self, reqId, ...)
 	
-	SMH.SendREQ(self, functionId, #varTable["data"], reqId, prefix)
+	SMH.SendREQ(self, functionId, varTable.count, reqId, prefix)
 end
 
 -- API END

@@ -88,7 +88,7 @@ local function ProcessVariables(reqId, ...)
 	end
 	
 	if not datacache[reqId] then
-		datacache[reqId] = { count = 1, data = {}}
+		datacache[reqId] = { count = 0, data = {}}
 	end
 	
 	for i=1, msg:len(), splitLength do
@@ -331,7 +331,7 @@ function SendClientRequest(prefix, functionId, ...)
 	local reqId = GenerateReqId()
 	local varTable = ProcessVariables(reqId, ...)
 	
-	CMH.SendREQ(functionId, #varTable["data"], reqId, prefix)
+	CMH.SendREQ(functionId, varTable.count, reqId, prefix)
 end
 
 --A API END
