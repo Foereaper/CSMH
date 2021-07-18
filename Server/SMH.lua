@@ -27,7 +27,7 @@ local function GenerateReqId()
 	return reqId
 end
 
-local function ParseMessage(prefix, str)
+local function ParseMessage(str)
 	local output = {}
 	local valTemp = {}
 	local typeTemp = {}
@@ -252,7 +252,7 @@ function SMH.OnDAT(sender, data)
 	if(sizeOfDataCache == reqTable.count) then
 		-- Concatenate the cache and parse the full payload for function variables to return
 		local fullPayload = table.concat(reqTable.data);
-		local VarTable = ParseMessage(reqTable.addon, fullPayload)
+		local VarTable = ParseMessage(fullPayload)
 		
 		-- Retrieve the function from global namespace and pass variables if it exists 
 		local func = SMH[reqTable.addon][reqTable.funcId]
