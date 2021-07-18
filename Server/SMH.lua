@@ -197,7 +197,12 @@ function SMH.OnREQ(sender, data)
 	SMH.SendACK(sender, reqId)
 end
 
-function SMH.OnACK(sender, reqId)
+function SMH.OnACK(sender, data)
+	local reqId = data:match("(%w%w%w%w%w%w)");
+	if not reqId then
+		return
+	end
+	
 	-- We received ACK but no data is available in cache. This should never happen
 	if not datacache[sender:GetGUIDLow()][reqId] then
 		debugOut("ACK received but no data available to transmit. Aborting.")
@@ -266,7 +271,12 @@ function SMH.OnDAT(sender, data)
 	end
 end
 
-function SMH.OnNAK(sender, reqId)
+function SMH.OnNAK(sender, data)
+	local reqId = data:match("(%w%w%w%w%w%w)");
+	if not reqId then
+		return
+	end
+	
 	-- when we receive an error from the server, purge the local cache data
 	debugOut("Purging cache data with REQ ID: "..reqId)
 	datacache[sender:GetGUIDLow()][reqId] = nil

@@ -108,7 +108,7 @@ function CMH.OnReceive(self, event, prefix, _, Type, sender)
 	if event == "CHAT_MSG_ADDON" and sender == UnitName("player") and Type == "WHISPER" then
 		-- unpack and validate addon message structure
 		local pfx, source, pckId, data = prefix:match("(...)(%u)(%d%d)(.+)")	
-		if not pfx or not source or not pckId or not data then
+		if not pfx or not source or not pckId then
 			return
 		end
 		
@@ -186,7 +186,12 @@ function CMH.OnREQ(sender, data)
 	CMH.SendACK(reqId)
 end
 
-function CMH.OnACK(sender, reqId)
+function CMH.OnACK(sender, data)
+	local reqId = data:match("(%w%w%w%w%w%w)");
+	if not reqId then
+		return
+	end
+	
 	-- We received ACK but no data is available in cache. This should never happen
 	if not datacache[reqId] then
 		debugOut("ACK received but no data available to transmit. Aborting.")
@@ -255,7 +260,12 @@ function CMH.OnDAT(sender, data)
 	end
 end
 
-function CMH.OnNAK(sender, reqId)
+function CMH.OnNAK(sender, data)
+	local reqId = data:match("(%w%w%w%w%w%w)");
+	if not reqId then
+		return
+	end
+	
 	-- when we receive an error from the server, purge the local cache data
 	debugOut("Purging cache data with REQ ID: "..reqId)
 	datacache[reqId] = nil
