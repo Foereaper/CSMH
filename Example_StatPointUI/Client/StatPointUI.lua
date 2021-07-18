@@ -138,7 +138,7 @@ function StatPointUI.OnLoad()
 end
 
 function OnCacheReceived(sender, argTable)
-	StatPointUI.cache = argTable[2]
+	StatPointUI.cache = argTable[1]
 	local rowContent = {"Strength", "Agility", "Stamina", "Intellect", "Spirit"}
 	for i = 1, 5 do
 		StatPointUI[rowContent[i]].Val:SetText(StatPointUI.cache[i])

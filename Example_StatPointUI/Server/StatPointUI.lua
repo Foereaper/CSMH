@@ -107,8 +107,8 @@ end
 function OnSpendPointRequest(player, argTable)
 	if(StatPointUI.cache[player:GetGUIDLow()][6] > 0) then
 		-- Double check that the stat requested is actually a valid number
-		if(tonumber(argTable[2]) <= 5 and tonumber(argTable[2]) >= 0) then
-			StatPointUI.OnPointSpent(player:GetGUIDLow(), argTable[2])
+		if(tonumber(argTable[1]) <= 5 and tonumber(argTable[1]) >= 0) then
+			StatPointUI.OnPointSpent(player:GetGUIDLow(), argTable[1])
 		end
 	else
 		player:SendBroadcastMessage("You have no points left!")
