@@ -154,7 +154,7 @@ RegisterServerEvent(30, SMH.OnReceive)
 function SMH.OnREQ(sender, data)
 	debugOut("Processing REQ data")
 	-- split header string into proper variables and ensure the string is the expected format
-	local functionId, linkCount, reqId, addon = data:match("(%d%d)(%d%d)(%w%w%w%w%w%w)(.+)");
+	local functionId, linkCount, reqId, addon = data:match("(%d%d)(%d%d%d)(%w%w%w%w%w%w)(.+)");
 	if not functionId or not linkCount or not reqId or not addon then
 		debugOut("Malformed REQ data, aborting.")
 		return
@@ -288,7 +288,7 @@ end
 
 function SMH.SendREQ(sender, functionId, linkCount, reqId, addon)
 	debugOut("Sending REQ with ID: "..reqId)
-	local send = string.format("%01s%01s%02d%02d%02d%06s%0"..tostring(#addon).."s", CSMHMsgPrefix, "S", pck.REQ, functionId, linkCount, reqId, addon)
+	local send = string.format("%01s%01s%02d%02d%03d%06s%0"..tostring(#addon).."s", CSMHMsgPrefix, "S", pck.REQ, functionId, linkCount, reqId, addon)
 	sender:SendAddonMessage(send, "", 7, sender)
 end
 
