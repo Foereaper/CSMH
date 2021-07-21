@@ -7,9 +7,6 @@ local pck = {REQ = 1, DAT = 2}
 
 -- HELPERS START
 local function debugOut(prefix, x, msg)
-	prefix = prefix or ""
-	msg = msg or ""
-	x = x or ""
 	if(debug == true) then
 		print("["..date("%X", time()).."][CSMH]["..x.."]["..prefix.."]: "..msg)
 	end
