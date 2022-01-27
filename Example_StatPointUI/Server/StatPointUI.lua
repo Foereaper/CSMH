@@ -38,6 +38,15 @@ function StatPointUI.OnLogin(event, player)
 	StatPointUI.SetStats(player:GetGUIDLow())
 end
 
+function StatPointUI.AddStatPoint(guid)
+	local player = GetPlayerByGUID(guid)
+	if(player) then
+		StatPointUI.cache[guid][6] = StatPointUI.cache[guid][6]+1
+		CharDBQuery("UPDATE character_stats_extra SET `points`=`points`+1 WHERE `guid`="..guid..";")
+		player:SendServerResponse(config.Prefix, 1, StatPointUI.cache[guid])
+	end
+end
+
 function StatPointUI.SetStats(guid, stat)
 	stat = stat or nil
 	local player = GetPlayerByGUID(guid)
@@ -119,6 +128,11 @@ end
 function OnStatResetRequest(player, argTable)
 	StatPointUI.OnPointsReset(player:GetGUIDLow())
 	player:SendServerResponse(config.Prefix, 1, StatPointUI.cache[player:GetGUIDLow()])
+end
+
+-- Helper function to add a stat point to the player through other scripts
+function Player:AddPoint()
+	StatPointUI.AddStatPoint(self:GetGUIDLow())
 end
 
 RegisterPlayerEvent(3, StatPointUI.OnLogin)
