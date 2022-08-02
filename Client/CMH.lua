@@ -3,7 +3,7 @@ local debug = false
 local CMH = {}
 local datacache = {}
 local delim = {"♠", "♥", "♚", "♛", "♜"}
-local emptyStr = "♝"
+local emptyStr = "˽"
 local pck = {REQ = 1, DAT = 2}
 
 -- HELPERS START
