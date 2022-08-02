@@ -75,7 +75,7 @@ local function ProcessVariables(reqId, ...)
 	local arg = {...}
 	local msg = ""
 	
-	for k, v in pairs(arg) do
+	for _, v in pairs(arg) do
 		if(type(v) == "string") then
 			-- Special case for empty string parsing
 			if(#v == 0) then
