@@ -4,9 +4,8 @@ local debug = false
 
 local SMH = {}
 local datacache = {}
-local delim = {"♠", "♥", "♚", "♛", "♜"}
-local emptyStr = "˽"
-local pck = {REQ = 1, DAT = 2}
+local delim = {"", "", "", "", ""}
+local pck = {REQ = "", DAT = ""}
 
 -- HELPERS START
 local function debugOut(prefix, x, msg)
@@ -54,7 +53,7 @@ local function ParseMessage(str)
 		local varType = typeTemp[k]
 		if(varType == 2) then -- strings
 			-- special case for empty string parsing
-			if(v == emptyStr) then
+			if(v == "") then
 				v = ""
 			end
 		elseif(varType == 3) then -- Ints
@@ -82,7 +81,7 @@ local function ProcessVariables(sender, reqId, ...)
 		if(type(v) == "string") then
 			-- Special case for empty string parsing
 			if(#v == 0) then
-				msg = msg .. emptyStr
+				v = ""
 			end
 			msg = msg .. delim[2]
 		elseif(type(v) == "number") then
@@ -126,16 +125,13 @@ function SMH.OnReceive(event, sender, _type, header, data, target)
 	-- Ensure the sender and receiver is the same, and the message type is WHISPER
 	if sender:GetName() == target:GetName() and _type == 7 then
 		-- unpack and validate addon message structure
-		local pfx, source, pckId = header:match("(...)(%u)(%d%d)")
+		local pfx, source, pckId = header:match("(.)(%u)(.)")
 		if not pfx or not source or not pckId then
 			return
 		end
 		
 		-- Make sure we're only processing addon messages using our framework prefix character as well as client messages
 		if(pfx == delim[1] and source == "C") then
-			-- convert ID to number so we can compare with our packet list
-			pckId = tonumber(pckId)
-			
 			if(pckId == pck.REQ) then
 				debugOut("REQ", "Rx", "REQ received, data: "..data)
 				SMH.OnREQ(sender, data)
@@ -261,7 +257,7 @@ end
 -- Tx START
 
 function SMH.SendREQ(sender, functionId, linkCount, reqId, addon)
-	local header = string.format("%01s%01s%02d", delim[1], "S", pck.REQ)
+	local header = string.format("%01s%01s%01s", delim[1], "S", pck.REQ)
 	local data = string.format("%02d%03d%06s%0"..tostring(#addon).."s", functionId, linkCount, reqId, addon)
 	sender:SendAddonMessage(header, data, 7, sender)
 	debugOut("REQ", "Tx", "Sent REQ with ID "..reqId..", sending DAT..")
@@ -269,7 +265,7 @@ end
 
 function SMH.SendDAT(sender, reqId)
 	-- Build data message header
-	local header = string.format("%01s%01s%02d", delim[1], "S", pck.DAT)
+	local header = string.format("%01s%01s%01s", delim[1], "S", pck.DAT)
 	
 	-- iterate all items in the message data cache and send
 	-- functions can also be trigger functions without any data, only send header and no payload
