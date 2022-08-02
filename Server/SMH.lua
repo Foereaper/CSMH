@@ -5,6 +5,7 @@ local debug = false
 local SMH = {}
 local datacache = {}
 local delim = {"♠", "♥", "♚", "♛", "♜"}
+local emptyStr = "♝"
 local pck = {REQ = 1, DAT = 2}
 
 -- HELPERS START
@@ -51,7 +52,12 @@ local function ParseMessage(str)
 	-- Convert value to correct type
 	for k, v in pairs(valTemp) do
 		local varType = typeTemp[k]
-		if(varType == 3) then -- Ints
+		if(varType == 2) then -- strings
+			-- special case for empty string parsing
+			if(v == emptyStr) then
+				v = ""
+			end
+		elseif(varType == 3) then -- Ints
 			v = tonumber(v)
 		elseif(varType == 4) then -- Tables
 			v = smallfolk.loads(v)
@@ -74,6 +80,10 @@ local function ProcessVariables(sender, reqId, ...)
 	
 	for _, v in pairs(arg) do
 		if(type(v) == "string") then
+			-- Special case for empty string parsing
+			if(#v == 0) then
+				msg = msg .. emptyStr
+			end
 			msg = msg .. delim[2]
 		elseif(type(v) == "number") then
 			msg = msg .. delim[3]
