@@ -53,7 +53,7 @@ local function ParseMessage(str)
 		local varType = typeTemp[k]
 		if(varType == 2) then -- strings
 			-- special case for empty string parsing
-			if(v == "") then
+			if(v == string.char(tonumber('1A', 16))) then
 				v = ""
 			end
 		elseif(varType == 3) then -- Ints
@@ -81,7 +81,7 @@ local function ProcessVariables(sender, reqId, ...)
 		if(type(v) == "string") then
 			-- Special case for empty string parsing
 			if(#v == 0) then
-				v = ""
+				v = string.char(tonumber('1A', 16))
 			end
 			msg = msg .. delim[2]
 		elseif(type(v) == "number") then
