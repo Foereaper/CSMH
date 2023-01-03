@@ -68,7 +68,7 @@ The CMH can be distributed either as a stand-alone addon, or through a patch. Fi
 ## Credits:
 - [Stoneharry](https://github.com/stoneharry)
 - [Terrorblade](https://github.com/Terrorblade)
-- Kaev
+- [Kaev](https://github.com/kaev)
 - [Rochet / AIO](https://github.com/Rochet2)
 - [Eluna](https://github.com/ElunaLuaEngine/Eluna)
 - [smallfolk](https://github.com/gvx/Smallfolk)
